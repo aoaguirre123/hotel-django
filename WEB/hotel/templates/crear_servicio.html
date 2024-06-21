@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 mt-5">
+            <div class="card card-body">
+                <h1 class="m-auto mb-2">Crear Servicio</h1>
+                <form action="/servicio/crear/" method="POST" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    {{ error }}
+                    {{ form.as_p }}
+                    <div class="card">
+                        <button type="submit" class="btn btn-primary">Crear Servicio</button>
+                    </div>
+                </form>
+                <a href="/servicio" style="text-decoration: none" class="mt-2 card"><button class="btn btn-secondary">Volver</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

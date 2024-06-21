@@ -1,0 +1,29 @@
+from django import forms
+from .models import Servicio, Promocion
+
+
+class ServicioForm(forms.ModelForm):
+    class Meta:
+        model = Servicio
+        fields = '__all__'
+        widgets = {
+            'tipo_servicio': forms.Select(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control fw-semibold'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'imagen': forms.FileInput(attrs={'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'estado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        
+class PromocionForm(forms.ModelForm):
+    class Meta:
+        model = Promocion
+        fields = '__all__'
+        widgets = {
+            'codigo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'porcentaje_descuento': forms.NumberInput(attrs={'class': 'form-control'}),
+            'fecha_inicio': forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
+            'fecha_fin': forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
+            'estado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }

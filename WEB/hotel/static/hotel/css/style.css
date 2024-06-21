@@ -1,0 +1,16 @@
+.error {
+    color: red;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    margin-top: auto;
+    justify-content: end;
+    bottom: 0;
+    width: auto;
+}
