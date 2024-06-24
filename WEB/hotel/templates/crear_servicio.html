@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-
+{% load static%}
 {% block content %}
 <main class="container">
-    <div class="row">
-        <div class="col-md-4 offset-md-4 mt-5">
+    <div class="row m-5">
+        <div class="col-md-6 offset-md-3">
             <div class="card card-body">
                 <h1 class="m-auto mb-2">Crear Servicio</h1>
                 <form action="/servicio/crear/" method="POST" enctype="multipart/form-data" >

@@ -1,0 +1,4 @@
+1. Crear venv, "python -m venv .venv"
+2. Activar venv, ".venv\Scripts\activate"
+3. Ejecutar lista de requerimientos del proyecto, "pip install -r requirements.txt"
+4. Ejecutar proyecto, "start.bat"

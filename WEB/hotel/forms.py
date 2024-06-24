@@ -1,5 +1,8 @@
 from django import forms
 from .models import Servicio, Promocion
+from django.forms.widgets import DateInput
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 
 class ServicioForm(forms.ModelForm):
@@ -23,7 +26,12 @@ class PromocionForm(forms.ModelForm):
             'codigo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'porcentaje_descuento': forms.NumberInput(attrs={'class': 'form-control'}),
-            'fecha_inicio': forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
-            'fecha_fin': forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
+            'fecha_inicio': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'fecha_fin': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'estado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+        
+    porcentaje_descuento = forms.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        widget=forms.NumberInput(attrs={'class': 'form-control'})
+    )

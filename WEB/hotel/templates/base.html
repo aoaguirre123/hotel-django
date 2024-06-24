@@ -1,117 +1,124 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Veranum</title>
     <!-- style css -->
-    <link rel="stylesheet" href="{% static 'hotel\css\style.css' %}">
+    <link rel="stylesheet" href="{% static 'hotel/css/style.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Bootstrap -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    />
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="/">Veranum</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav ms-auto">
-            {% if user.is_authenticated %} 
-            <li class="nav-item">
-              {% if request.user.is_superuser %}
-              <span class="nav-link text-white fw-light">Bienvenido, <span class="text-success fw-semibold text-uppercase">{{ user.username }}</span>!</span>
-              {% elif request.user.is_staff %}
-              <span class="nav-link text-white fw-light">Bienvenido, <span class="text-primary fw-semibold text-uppercase">{{ user.username }}</span>!</span>
-              {% else %}
-              <span class="nav-link text-white fw-light">Bienvenido, <span class="text-white fw-semibold text-uppercase">{{ user.username }}</span>!</span>
-              {% endif %}
-            </li>
-            {% endif %}
-            <li>
-              <a class="nav-link" href="/">Inicio</a>
-            </li>
-            {% if user.is_authenticated %} 
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Salir</a>
-            </li>
-            {% if request.user.is_staff %}
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Administracion
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/servicio">Servicios</a></li>
-                  <li><a class="dropdown-item" href="/promocion">Promociones</a></li>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body class="fondo">
+    <nav class="navbar navbar-expand-lg navbar-dark color1">
+        <div class="container">
+            <a class="navbar-brand" href="/"><img src="{% static 'hotel/img/Logo-Veranum3.png' %}" alt="" width="60" height="48" class="d-inline-block align-text-center"> Veranum</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            {% if request.user.is_superuser %}
+                                <span class="nav-link text-white fw-light">Bienvenido, <span
+                                        class="text-success fw-semibold text-uppercase">{{ user.username }}</span>!</span>
+                            {% elif request.user.is_staff %}
+                                <span class="nav-link text-white fw-light">Bienvenido, <span
+                                        class="text-primary fw-semibold text-uppercase">{{ user.username }}</span>!</span>
+                            {% else %}
+                                <span class="nav-link text-white fw-light">Bienvenido, <span
+                                        class="text-white fw-semibold text-uppercase">{{ user.username }}</span>!</span>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="">Habitaciones</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'servicioCl' %}">Servicios</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="">Contacto</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="">Nosotros</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Salir</a>
+                        </li>
+                        {% if request.user.is_staff %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Administracion
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'servicio' %}">Servicios</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'promocion' %}">Promociones</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/signup">Registrarse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/signin">Iniciar Sesion</a>
+                        </li>
+                    {% endif %}
                 </ul>
-              </li>
-            {% endif %}
-            {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="/signup">Registrarse</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/signin">Iniciar Sesion</a>
-            </li>
-            {% endif %}
-          </ul>
+            </div>
         </div>
-      </div>
     </nav>
 
-    {% block content %} 
+    {% block content %}
     {% endblock %}
 
-    <footer class="footer py-3 bg-dark text-white">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <h5 class="text-uppercase">Hoteles Veranum</h5> 
-            <p>Teléfono: +56 24444 3333</p>
-            <p>Email: info@hotelveranum.com</p>
-          </div>
-          <div class="col-md-4">
-            <h5 class="text-uppercase">Enlaces útiles</h5>
-            <ul class="list-unstyled">
-              <li><a href="{% url 'home' %}" class="text-white">Inicio</a></li>
-              <li><a href="#" class="text-white">Contacto</a></li>
-            </ul>
-          </div>
-          <div class="col-md-4">
-            <h5 class="text-uppercase">Redes sociales</h5>
-            <ul class="list-unstyled">
-              <li><a href="#" class="text-white"><i class="fab fa-facebook-f"></i> Facebook</a></li>
-              <li><a href="#" class="text-white"><i class="fab fa-twitter"></i> Twitter</a></li>
-              <li><a href="#" class="text-white"><i class="fab fa-instagram"></i> Instagram</a></li>
-            </ul>
-          </div>
+    <footer class="footer py-3 text-white color1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="text-uppercase">Hoteles Veranum</h5>
+                    <p>Teléfono: +56 24444 3333</p>
+                    <p>Email: info@hotelveranum.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-uppercase">Enlaces útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home' %}" class="text-white">Inicio</a></li>
+                        <li><a href="#" class="text-white">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-uppercase">Redes sociales</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white" style="text-decoration: none;"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                        <li><a href="#" class="text-white" style="text-decoration: none;"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#" class="text-white" style="text-decoration: none;"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center text-white">Copyright &copy; 2024 Hotel Veranum. Todos los derechos reservados.
+            </p>
         </div>
-        <p class="text-center text-white">Copyright &copy; 2024 Hotel Veranum. Todos los derechos reservados.</p>
-      </div>
     </footer>
-
 
     <!-- Script JS Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+    
+    <!-- Script JS -->
+    <script src="{% static 'hotel/js/script.js' %}"></script>
+    
+</body>
 </html>

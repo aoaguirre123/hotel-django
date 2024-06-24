@@ -5,8 +5,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import ServicioForm, PromocionForm
 from .models import Servicio, Promocion
-from django.utils import timezone
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
+import os 
 
 # Create your views here.
 def home(request):
@@ -67,10 +68,8 @@ def crear_servicio(request):
         })
     else:
         try:
-            print(request.POST)
             form = ServicioForm(request.POST, request.FILES)
             new_servicio = form.save(commit=False)
-            print(new_servicio)
             new_servicio.save()
             return redirect('servicio')
         except ValueError:
@@ -96,13 +95,23 @@ def detalle_servicio(request, servicio_id):
         form = ServicioForm(instance=servicio)
         return render(request, 'detalle_servicio.html', {'servicio': servicio, 'form': form})
     else:
-        try:
-            servicio = get_object_or_404(Servicio, pk=servicio_id )
-            form = ServicioForm(request.POST, instance=servicio)
-            form.save()
+        servicio = get_object_or_404(Servicio, pk=servicio_id)
+        form = ServicioForm(request.POST, request.FILES, instance=servicio)
+        if form.is_valid():
+            imagen_nueva = form.cleaned_data.get('imagen')
+            if imagen_nueva:
+                # Verifica si la imagen ya existe en la carpeta media
+                imagen_path = os.path.join(settings.MEDIA_ROOT, 'servicios', imagen_nueva.name)
+                if os.path.exists(imagen_path):
+                    # La imagen ya existe, Se asigna el path de la imagen existente
+                    servicio.imagen = os.path.join('servicios', imagen_nueva.name)
+                else:
+                    # La imagen no existe, guardamos la nueva imagen con su respectivo path
+                    servicio.imagen = imagen_nueva
+            servicio.save()
             return redirect('servicio')
-        except ValueError:
-            return render(request, 'detalle_servicio.html', {'servicio': servicio, 'form': form, 'error': "Error al actualizar el Servicio"})
+        else:
+            return render(request, 'detalle_servicio.html', {'servicio': servicio, 'form': form, 'error': 'Error al actualizar el servicio'})
         
 @login_required
 def eliminar_servicio(request, servicio_id):
@@ -121,10 +130,8 @@ def crear_promocion(request):
         })
     else:
         try:
-            print(request.POST)
             form = PromocionForm(request.POST, request.FILES)
             new_promocion = form.save(commit=False)
-            print(new_promocion)
             new_promocion.save()
             return redirect('promocion')
         except ValueError:
@@ -164,3 +171,8 @@ def eliminar_promocion(request, promocion_id):
     if request.method == 'POST':
         promocion.delete()
         return redirect('promocion')
+    
+
+def servicioCl(request):
+    servicios = Servicio.objects.all()
+    return render(request, 'servicioCl.html', {'servicios': servicios})

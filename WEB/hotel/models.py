@@ -1,7 +1,7 @@
 from django.db import models
-from django.db.models import IntegerField
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.files.storage import default_storage
+import os
 
 
 # Create your models here.
@@ -32,12 +32,11 @@ class Servicio(models.Model):
     imagen = models.ImageField(upload_to="servicios", verbose_name='Imagen')
     precio = models.DecimalField(max_digits=10, decimal_places=0, verbose_name='Precio')
     estado = models.BooleanField(default=True, verbose_name='Estado')
-
     class Meta:
         db_table = 'Servicio'
         verbose_name = "Servicio"
         verbose_name_plural = "Servicios"
-        ordering = ['tipo_servicio']
+        ordering = ['id']
         
     def __str__(self):
         return self.nombre
@@ -47,6 +46,7 @@ class Servicio(models.Model):
             'accion_eliminar': 'eliminar el Servicio',
             'accion_actualizar': 'actualizar el Servicio'
         }
+        
 
 class Promocion(models.Model):
     codigo = models.CharField(max_length=20, primary_key=True, verbose_name='Codigo')
