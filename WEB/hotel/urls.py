@@ -19,6 +19,4 @@ urlpatterns = [
     path('promocion/<str:promocion_id>/', views.detalle_promocion, name='detalle_promocion'),
     path('promocion/<str:promocion_id>/eliminar', views.eliminar_promocion, name='eliminar_promocion'),
     path('servicioCl/', views.servicioCl, name='servicioCl'),
-    path('servicios/', views.servicioCl, name='servicioCl'),
-    path('servicios/', views.servicioCl, name='servicioCl'),
 ]
