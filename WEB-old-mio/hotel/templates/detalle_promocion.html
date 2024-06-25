@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+
+<main class="container">
+    <div class="row m-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card card-body">
+                <h1 class="m-auto mb-3">Detalle promocion</h1>
+                <p class="error fw-bolder">{{ error }}</p>
+                <form method="POST" class="mb-2">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="card">
+                        <button type="submit" class="btn btn-primary">Actualizar Promocion</button>
+                    </div>
+                </form>
+                <form action="{% url 'eliminar_promocion' promocion.codigo %}" method="POST" class="card">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">
+                        Eliminar    
+                    </button>
+                </form>
+                <div class="mt-2">
+                    <a href="/promocion" class="card" style="text-decoration: none;"><button class="btn btn-secondary">Volver</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

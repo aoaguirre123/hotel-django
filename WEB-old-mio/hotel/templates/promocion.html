@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static%}
+{% block content %}
+
+<div class="m-5">
+  <h1 class="text-center mt-3 text-white">Promociones</h1>
+  <div class="container mt-3">
+    <div class="mb-2">
+      <a href="/promocion/crear/"><button class="btn btn-success">Crear Promocion</button></a>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table class="table table-secondary table-striped table-bordered">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Porcentaje de descuento</th>
+                <th scope="col">Fecha de inicio</th>
+                <th scope="col">Fecha de fin</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha de creacion</th>
+                <th scope="col">Fecha de actualizacion</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for promocion in promociones %}
+              <tr>
+                <td class="fw-bold">'{{ promocion.codigo }}'</td>
+                <td>{{ promocion.descripcion }}</td>
+                <td>{{ promocion.porcentaje_descuento }}%</td>
+                <td>{{ promocion.fecha_inicio }}</td>
+                <td>{{ promocion.fecha_fin }}</td>
+                {% if promocion.estado %}
+                <td class="text-success fw-semibold">Activo</td>
+                {% else %}
+                <td class="text-secondary fw-semibold">Inactivo</td>
+                {% endif %}
+                <td>{{ promocion.fecha_creacion }}</td>
+                <td>{{ promocion.fecha_actualizacion }}</td>
+                <td><form action="{% url 'eliminar_promocion' promocion.codigo %}" method="POST">
+                  {% csrf_token %}
+                  <button class="btn btn-danger">
+                      Eliminar
+                  </button>
+                </form>
+                <a href="{% url 'detalle_promocion' promocion.codigo %}" class="btn btn-primary mt-2">Modificar</a>
+                </td>
+              </tr>
+              <!-- Otras filas de la tabla -->
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

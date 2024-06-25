@@ -1,0 +1,64 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    margin-top: auto;
+    justify-content: end;
+    bottom: 0;
+    width: auto;
+}
+
+.card {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.imagen {
+    flex: 0 0 30%; /* Tamaño fijo para la imagen */
+    margin-right: 10px;
+}
+.contenido {
+    flex: 1; /* El contenido ocupa el espacio restante */
+}
+.imagen img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.fondo {
+    background-color: #3C3C4E;
+}
+
+.error {
+    color: red;
+}
+
+.texto{
+    color: white;
+}
+
+.color1 {
+    background-color: #212132;
+}
+
+.color2 {
+    background-color: #292941;
+}
+
+.color3 {
+    background-color: #3C3C4E;
+}
+
+.color4 {
+    background-color: #3B3B49;
+}
+
+.errorlist1 {
+    color: red;
+}

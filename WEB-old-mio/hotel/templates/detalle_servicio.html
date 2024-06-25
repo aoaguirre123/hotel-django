@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+
+<main class="container">
+    <div class="row m-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card card-body">
+                <h1 class="m-auto mb-3">Detalle Servicio</h1>
+                <form method="POST" enctype="multipart/form-data" class="mb-2">
+                    {{ error }}
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="card">
+                        <button type="submit" class="btn btn-primary">Actualizar Servicio</button>
+                    </div>
+                </form>
+                <form action="{% url 'eliminar_servicio' servicio.id %}" method="POST" class="card">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </form>
+                <a href="/servicio" class="card mt-2" style="text-decoration: none"><button class="btn btn-secondary">Volver</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock content %}
