@@ -1,31 +1,53 @@
+
+
 {% extends 'base.html' %}
-{% load static%}
+{% load static %}
 {% block content %}
     <div class="container">
         <div class="m-5">
             <h2 class="m-5 text-center text-white">Nuestros servicios</h2>
-            {% for servicio in servicios %}
-            <div class="card mb-3 text-bg-secondary" >
-                <div class="row">
-                    <div class="col-md-5">
-                        <img src="{{ servicio.imagen.url}}" width="600" height="600" class="img-fluid rounded" alt="...">
-                    </div>
-                    <div class="col-md-7 position-relative">
-                        <div class="row">
-                            <h3 class="card-title text-center mt-2 fw-bold">{{ servicio.nombre }}</h3><br>
-                            <p class="card-text fw-semibold">Tipo de servicio: {{ servicio.tipo_servicio.nombre }}</p>
-                            <div class="card-text">
-                                <p class="card-text fw-light">{{ servicio.descripcion }}</p><br>
-                                <p class="card-text fw-semibold">Precio: ${{ servicio.precio }}</p>
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary d-grid col-2 position-absolute bottom-0" type="button">Ir</button>
+            
+            <form method="GET" action="{% url 'servicioCl' %}">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Buscar servicios..." name="q" value="{{ request.GET.q }}">
+                    <select class="form-select" name="tipo_servicio">
+                        <option value="">Todos los tipos</option>
+                        {% for tipo in tipos_servicio %}
+                            <option value="{{ tipo.id }}" {% if request.GET.tipo_servicio == tipo.id|stringformat:"s" %}selected{% endif %}>{{ tipo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                </div>
+            </form>
+            
+            {% if no_results %}
+                <div class="alert alert-warning text-center" role="alert">
+                    No se encontraron servicios para la búsqueda: "{{ query }}"
+                </div>
+            {% else %}
+                {% for servicio in servicios %}
+                <div class="card mb-3 text-bg-secondary" >
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img src="{{ servicio.imagen.url }}" width="600" height="600" class="img-fluid rounded" alt="...">
+                        </div>
+                        <div class="col-md-7 position-relative">
+                            <div class="row">
+                                <h3 class="card-title text-center mt-2 fw-bold">{{ servicio.nombre }}</h3><br>
+                                <p class="card-text fw-semibold">Tipo de servicio: {{ servicio.tipo_servicio.nombre }}</p>
+                                <div class="card-text">
+                                    <p class="card-text fw-light">{{ servicio.descripcion }}</p><br>
+                                    <p class="card-text fw-semibold">Precio: ${{ servicio.precio }}</p>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-primary d-grid col-2 position-absolute bottom-0" type="button">Ir</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

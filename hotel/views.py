@@ -4,9 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import ServicioForm, PromocionForm
-from .models import Servicio, Promocion
+from .models import Servicio, Promocion, TipoServicio
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 import os 
 
 # Create your views here.
@@ -176,3 +177,35 @@ def eliminar_promocion(request, promocion_id):
 def servicioCl(request):
     servicios = Servicio.objects.all()
     return render(request, 'servicioCl.html', {'servicios': servicios})
+
+
+
+
+# Buscador---------------
+
+def servicioCl(request):
+    query = request.GET.get('q', '')
+    tipo_servicio_id = request.GET.get('tipo_servicio', '')
+
+    servicios = Servicio.objects.all()
+    
+    if query:
+        servicios = servicios.filter(
+            Q(nombre__icontains=query) | 
+            Q(descripcion__icontains=query) |
+            Q(tipo_servicio__nombre__icontains=query)
+        )
+
+    if tipo_servicio_id:
+        servicios = servicios.filter(tipo_servicio_id=tipo_servicio_id)
+        
+    no_results = not servicios.exists()
+    tipos_servicio = TipoServicio.objects.all()
+    
+    return render(request, 'servicioCl.html', {
+        'servicios': servicios, 
+        'query': query, 
+        'no_results': no_results, 
+        'tipos_servicio': tipos_servicio,
+        'selected_tipo_servicio': tipo_servicio_id
+    })

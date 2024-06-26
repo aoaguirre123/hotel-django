@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
+from django import forms
 import os
 
 
@@ -72,4 +73,6 @@ class Promocion(models.Model):
             'accion_eliminar': 'eliminar la promocion',
             'accion_actualizar': 'actualizar la promocion'
         }
-    
+
+
+
