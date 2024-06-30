@@ -1,7 +1,6 @@
-
-
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
     <div class="container">
         <div class="m-5">
@@ -9,8 +8,8 @@
             
             <form method="GET" action="{% url 'servicioCl' %}">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Buscar servicios..." name="q" value="{{ request.GET.q }}">
-                    <select class="form-select" name="tipo_servicio">
+                    <input type="text" class="form-control" placeholder="Buscar servicios..." name="q" value="{{ request.GET.q }}" style="background-color: #c7c7cc;">
+                    <select class="form-select" name="tipo_servicio" style="background-color: #c7c7cc;">
                         <option value="">Todos los tipos</option>
                         {% for tipo in tipos_servicio %}
                             <option value="{{ tipo.id }}" {% if request.GET.tipo_servicio == tipo.id|stringformat:"s" %}selected{% endif %}>{{ tipo.nombre }}</option>
@@ -37,7 +36,7 @@
                                 <p class="card-text fw-semibold">Tipo de servicio: {{ servicio.tipo_servicio.nombre }}</p>
                                 <div class="card-text">
                                     <p class="card-text fw-light">{{ servicio.descripcion }}</p><br>
-                                    <p class="card-text fw-semibold">Precio: ${{ servicio.precio }}</p>
+                                    <p class="card-text fw-semibold">Precio: ${{ servicio.precio|intcomma }}</p>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <button class="btn btn-primary d-grid col-2 position-absolute bottom-0" type="button">Ir</button>

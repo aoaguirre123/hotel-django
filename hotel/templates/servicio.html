@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static%}
+{% load humanize %}
 {% block content %}
 <div class="m-5">
   <h1 class="m-auto text-center text-white">Servicios</h1>
@@ -30,7 +31,7 @@
                 <td class="fw-semibold">{{ servicio.nombre }}</td>
                 <td>{{ servicio.tipo_servicio.nombre }}</td>
                 <td>{{ servicio.descripcion }}</td>
-                <td>{{ servicio.precio }}</td>
+                <td>${{ servicio.precio|intcomma }}</td>
                 {% if servicio.estado %}
                 <td class="text-success fw-semibold">Activo</td>
                 {% else %}

@@ -5,25 +5,27 @@
 <main class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <form method="POST" class="card card-body mt-5">
-                <h1 class="text-center py-2">Registro</h1>
-                {{ error }}
+            <form method="POST" class="card card-body mt-5" style="background-color: #212132;">
+                <h1 class="text-center py-2 text-white">Registro</h1>
+                {% if error %}
+                <p class="error fw-semibold">{{ error }}</p>
+                {% endif %}
                 {% csrf_token %}
                 
                 <div class="mb-3">
-                    <label for="username">Nombre de usuario:</label>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre">
+                    <label for="username" style="color: #ffffff">Nombre de usuario:</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre" style="background-color: #c7c7cc;">
                 </div>
                 <div class="mb-3">
-                    <label for="password1">Contraseña:</label>
-                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Escribe tu contraseña">
+                    <label for="password1" style="color: #ffffff">Contraseña:</label>
+                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Escribe tu contraseña" style="background-color: #c7c7cc;">
                 </div>
                 <div class="mb-3">
-                    <label for="password2">Confirma tu contraseña:</label>
-                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirma tu contraseña">
+                    <label for="password2" style="color: #ffffff">Confirma tu contraseña:</label>
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirma tu contraseña" style="background-color: #c7c7cc;">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Registrarse</button>
+                <button type="submit" class="btn btn-primary my-3">Registrarse</button>
             </form>    
         </div>
     </div>

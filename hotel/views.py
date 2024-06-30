@@ -21,7 +21,7 @@ def signup(request):
         })
         
     else:
-        if request.POST['password1'] == request.POST['password1']:
+        if request.POST['password1'] == request.POST['password2']:
             # register user
             try:
                 user = User.objects.create_user(username=request.POST['username'], 
@@ -34,10 +34,11 @@ def signup(request):
                     'form': UserCreationForm,
                     "error": 'El usuario ya existe'
                 })
-        return render(request, 'signup.html',{
-                    'form': UserCreationForm,
-                    "error": 'Las contraseñas no coinciden'
-                })
+        else:
+            return render(request, 'signup.html',{
+                        'form': UserCreationForm,
+                        "error": 'Las contraseñas no coinciden'
+                    })
 
 @login_required
 def signout(request):
@@ -70,7 +71,17 @@ def crear_servicio(request):
     else:
         try:
             form = ServicioForm(request.POST, request.FILES)
-            new_servicio = form.save(commit=False)
+            imagen_nueva = request.FILES['imagen']
+            if imagen_nueva:
+                new_servicio = form.save(commit=False)
+                # Verifica si la imagen ya existe en la carpeta media
+                imagen_path = os.path.join(settings.MEDIA_ROOT, 'servicios', imagen_nueva.name)
+                if os.path.exists(imagen_path):
+                    # La imagen ya existe, Se asigna el path de la imagen existente
+                    new_servicio.imagen = os.path.join('servicios', imagen_nueva.name)
+                else:
+                    # La imagen no existe, guardamos la nueva imagen con su respectivo path
+                    new_servicio.imagen = imagen_nueva
             new_servicio.save()
             return redirect('servicio')
         except ValueError:
@@ -79,7 +90,7 @@ def crear_servicio(request):
             'error': 'Porfavor provee datos validos'
             })
 
-@login_required        
+@login_required
 def servicio(request):
     if not request.user.is_staff:
         return redirect('home')
@@ -87,7 +98,7 @@ def servicio(request):
         servicios = Servicio.objects.all()
         return render(request, 'servicio.html', {'servicios': servicios})
 
-@login_required  
+@login_required
 def detalle_servicio(request, servicio_id):
     if not request.user.is_staff:
         return redirect('home')
@@ -174,20 +185,17 @@ def eliminar_promocion(request, promocion_id):
         return redirect('promocion')
     
 
-def servicioCl(request):
-    servicios = Servicio.objects.all()
-    return render(request, 'servicioCl.html', {'servicios': servicios})
+# Sin Bucador -------------------------------------------------------------
+# def servicioCl(request):
+#     servicios = Servicio.objects.filter(estado=1)
+#     return render(request, 'servicioCl.html', {'servicios': servicios})
 
-
-
-
-# Buscador---------------
-
+# Con Buscador--------------
 def servicioCl(request):
     query = request.GET.get('q', '')
     tipo_servicio_id = request.GET.get('tipo_servicio', '')
 
-    servicios = Servicio.objects.all()
+    servicios = Servicio.objects.filter(estado=1)
     
     if query:
         servicios = servicios.filter(

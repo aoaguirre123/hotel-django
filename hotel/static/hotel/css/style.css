@@ -62,3 +62,15 @@ footer {
 .errorlist1 {
     color: red;
 }
+
+.l-card {
+    color: #ffffff !important;
+}
+
+.bi-card {
+    background-color: #212132;
+}
+
+.b-card {
+    background-color: #212132 !important;
+}
