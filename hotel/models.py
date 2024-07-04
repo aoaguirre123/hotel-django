@@ -73,6 +73,3 @@ class Promocion(models.Model):
             'accion_eliminar': 'eliminar la promocion',
             'accion_actualizar': 'actualizar la promocion'
         }
-
-
-

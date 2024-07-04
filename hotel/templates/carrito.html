@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container card my-5" style="background-color: #212132;">
+    <div class="row">
+        <div class="col-12 mb-4 mt-3">
+            <h1 class="text-center fw-semibold" style="color: #c7c7c2;">Carrito de Compras</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <table class="table table-striped table-secondary table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Precio c/u</th>
+                        <th>Cantidad</th>
+                        <th style="width: 10rem;">Sumar/Restar</th>
+                        <th>Subtotal</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if request.session.carrito.items %}
+                        {% for key, value in request.session.carrito.items %}
+                        <tr>
+                            <td class="fw-semibold">{{ value.nombre }}</td>
+                            <td>${{ value.precio|intcomma }}</td>
+                            <td>{{ value.cantidad }}
+                            </td>
+                            <td>
+                                <a href="{% url 'Add' value.servicio_id %}" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
+                                <a href="{% url 'Sub' value.servicio_id %}" class="btn btn-primary btn-sm"><i class="fa-solid fa-minus" style="color: #ffffff;"></i></a>
+                            </td>
+                            <td>${{ value.acumulado|intcomma }}</td>
+                            <td>
+                                <a href="{% url 'Del' value.servicio_id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-danger text-center" role="alert">
+                                    No hay servicios en el carrito
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mt-1 mb-2">
+        <div class="col-12">
+            <div class="d-flex rounded" style="background-color: #cccccc;">
+                <div class="p-2 flex-grow-1">
+                    <div class="ms-2"><h3>Total: ${{ total_carrito|intcomma }}</h3></div>
+                </div>
+                <div class="p-2">
+                    <a href="{% url 'Clean' %}" class="btn btn-danger">Vaciar Carrito</a>
+                    <a href="#" class="btn btn-primary">Pagar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

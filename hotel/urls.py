@@ -18,6 +18,12 @@ urlpatterns = [
     path('promocion/crear/', views.crear_promocion, name='crear_promocion'),
     path('promocion/<str:promocion_id>/', views.detalle_promocion, name='detalle_promocion'),
     path('promocion/<str:promocion_id>/eliminar', views.eliminar_promocion, name='eliminar_promocion'),
-    path('servicioCl/', views.servicioCl, name='servicioCl'),
+    # path('servicioCl/', views.servicioCl, name='servicioCl'),
     path('servicios/', views.servicioCl, name='servicioCl'),
+    path('carrito/', views.carrito, name="carrito"),
+    path('agregar/<int:servicio_id>/', views.agregar_carro, name="Add"),
+    path('servicios/agregar/<int:servicio_id>/', views.agregar_carro_servicios, name="serviciosAdd"),
+    path('eliminar/<int:servicio_id>/', views.eliminar_carro, name="Del"),
+    path('restar/<int:servicio_id>/', views.restar_carro, name="Sub"),
+    path('limpiar/', views.limpiar_carro, name="Clean"),
 ]

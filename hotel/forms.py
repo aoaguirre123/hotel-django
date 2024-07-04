@@ -35,3 +35,4 @@ class PromocionForm(forms.ModelForm):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         widget=forms.NumberInput(attrs={'class': 'form-control'})
     )
+    

@@ -28,13 +28,13 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             {% if request.user.is_superuser %}
-                                <span class="nav-link text-white fw-light">Bienvenido, <span
+                                <span class="nav-link fw-light">Bienvenido, <span
                                         class="text-success fw-semibold text-uppercase">{{ user.username }}</span>!</span>
                             {% elif request.user.is_staff %}
-                                <span class="nav-link text-white fw-light">Bienvenido, <span
+                                <span class="nav-link fw-light">Bienvenido, <span
                                         class="text-primary fw-semibold text-uppercase">{{ user.username }}</span>!</span>
                             {% else %}
-                                <span class="nav-link text-white fw-light">Bienvenido, <span
+                                <span class="nav-link fw-light">Bienvenido, <span
                                         class="text-white fw-semibold text-uppercase">{{ user.username }}</span>!</span>
                             {% endif %}
                         </li>
@@ -58,6 +58,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/logout">Salir</a>
                         </li>
+                        <div class="mx-2">
+                            <a class="nav-link active" aria-current="page" href="{% url 'carrito' %}">
+                                <i class="fa-solid fa-cart-shopping fa-lg" style="color: #9b9ba3;"></i>
+                            </a>  
+                        </div>
                         {% if request.user.is_staff %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -120,6 +125,9 @@
     
     <!-- Script JS -->
     <script src="{% static 'hotel/js/script.js' %}"></script>
+
+    <!-- Script Fontawesome-->
+    <script src="https://kit.fontawesome.com/40f2d4fd97.js" crossorigin="anonymous"></script>
     
 </body>
 </html>

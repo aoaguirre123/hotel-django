@@ -3,11 +3,13 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+from .Carrito import Carrito 
 from .forms import ServicioForm, PromocionForm
 from .models import Servicio, Promocion, TipoServicio
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from datetime import datetime
 import os 
 
 # Create your views here.
@@ -217,3 +219,42 @@ def servicioCl(request):
         'tipos_servicio': tipos_servicio,
         'selected_tipo_servicio': tipo_servicio_id
     })
+    
+@login_required
+def carrito(request):
+    servicios = Servicio.objects.all()
+    return render(request, 'carrito.html', {'servicios':servicios})
+
+@login_required
+def agregar_carro(request, servicio_id):
+    carrito = Carrito(request)
+    servicio = Servicio.objects.get(id = servicio_id)
+    carrito.agregar(servicio)
+    return redirect('carrito')
+
+@login_required
+def agregar_carro_servicios(request, servicio_id):
+    carrito = Carrito(request)
+    servicio = Servicio.objects.get(id = servicio_id)
+    carrito.agregar(servicio)
+    return redirect('servicioCl')
+
+@login_required
+def eliminar_carro(request, servicio_id):
+    carrito = Carrito(request)
+    servicio = Servicio.objects.get(id = servicio_id)
+    carrito.eliminar(servicio)
+    return redirect('carrito')
+
+@login_required
+def restar_carro(request, servicio_id):
+    carrito = Carrito(request)
+    servicio = Servicio.objects.get(id = servicio_id)
+    carrito.restar(servicio)
+    return redirect('carrito')
+
+@login_required
+def limpiar_carro(request):
+    carrito = Carrito(request)
+    carrito.limpiar_carrito()
+    return redirect('carrito')
